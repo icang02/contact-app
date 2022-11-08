@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ContactList = () => {
   const [contacts, setContacts] = useState([]);
@@ -17,6 +18,21 @@ const ContactList = () => {
   const deleteContact = async (id) => {
     try {
       await axios.delete(`http://127.0.0.1:5000/contacts/${id}`);
+
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("click", Swal.close);
+        },
+      }).fire({
+        icon: "error",
+        title: "Kontak dihapus",
+      });
+
       getContacts();
     } catch (error) {
       console.log(error);

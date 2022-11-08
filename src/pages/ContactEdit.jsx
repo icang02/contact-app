@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Swal from "sweetalert2";
 
 const ContactEdit = () => {
   const [name, setName] = useState("");
@@ -23,6 +24,21 @@ const ContactEdit = () => {
         email,
         noHp,
       });
+
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("click", Swal.close);
+        },
+      }).fire({
+        icon: "success",
+        title: "Kontak diupdate",
+      });
+
       navigate("/contacts");
     } catch (error) {
       console.log(error);

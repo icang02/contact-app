@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Swal from "sweetalert2";
 
 const ContactAdd = () => {
   const [name, setName] = useState();
@@ -23,6 +24,21 @@ const ContactAdd = () => {
         email,
         noHp,
       });
+
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("click", Swal.close);
+        },
+      }).fire({
+        icon: "success",
+        title: "Kontak ditambahkan",
+      });
+
       navigate("/contacts");
     } catch (error) {
       errorName = setErrorName(error.response.data[0].message);
